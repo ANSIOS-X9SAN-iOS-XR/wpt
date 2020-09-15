@@ -21,7 +21,7 @@ async_test(t => {
   iframe.onload = t.step_func(() => {
     const anchor = document.getElementById('anchor');
     anchor.href = '/#';
-    t.step(() => anchor.click());
+    anchor.click();
     window.onmessage = t.step_func(event => {
       if (typeof event.data === 'string' && event.data.includes('navigation')) {
         assert_equals(event.data, 'form navigation');

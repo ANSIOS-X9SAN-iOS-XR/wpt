@@ -9,19 +9,19 @@
 <script>
   // Test the buffer size (100) of ReportingObserver.
   promise_test(async function(test) {
-    for (i = 0; i != 110; ++i)
+    for (let i = 0; i != 110; ++i)
       await test_driver.generate_test_report("" + i);
 
-    return new Promise(resolve => {
+    let reports = await new Promise(resolve => {
       let observer = new ReportingObserver(resolve, {buffered:true});
       observer.observe();
-    }).then(reports => {
-      // Only (the most recent) 100 reports should be observed, even though
-      // 110 were buffered.
-      assert_equals(reports.length, 100);
-      for(i = 0; i != 100; ++i) {
-        assert_equals(reports[i].body.message, "" + (i + 10));
-      }
     });
+
+    // Only (the most recent) 100 reports should be observed, even though
+    // 110 were buffered.
+    assert_equals(reports.length, 100);
+    for (let i = 0; i != 100; ++i) {
+      assert_equals(reports[i].body.message, "" + (i + 10));
+    }
   }, "Buffer size");
 </script>

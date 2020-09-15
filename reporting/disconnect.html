@@ -16,6 +16,7 @@ promise_test(async test => {
       assert_equals(reports.length, 1);
       assert_equals(reports[0].body.message, "Test message.");
     });
+    await observerPromise;
 
     // The observer should still receive this report even though disconnect()
     // is called immediately afterwards.

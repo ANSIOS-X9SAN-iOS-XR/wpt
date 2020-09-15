@@ -52,17 +52,13 @@ promise_test(async function(t) {
   let stream = await getMediaStream();
   let vtr = new VideoTrackReader(stream.getVideoTracks()[0]);
 
-  let stoppedOnce = false;
-
+  let stopped = false;
   return new Promise(resolve => {
     vtr.start(t.step_func(() => {
-      if(!stoppedOnce) {
-        vtr.stop();
-        vtr.start(resolve);
-        stoppedOnce = true;
-      } else {
-        assert_unreached("A stopped callback should never be called again");
-      }
+      assert_false(stopped, "A stopped callback should never be called again");
+      vtr.stop();
+      vtr.start(resolve);
+      stopped = true;
     }));
   });
 }, 'Test we can restart a stopped VideoTrackReader.');
