@@ -13,6 +13,7 @@ promise_test(async test => {
       observer = new ReportingObserver(resolve);
       observer.observe();
     }).then(reports => {
+      assert_false(true, 'Testing what happens if this assert fails')
       assert_equals(reports.length, 1);
       assert_equals(reports[0].body.message, "Test message.");
     });
